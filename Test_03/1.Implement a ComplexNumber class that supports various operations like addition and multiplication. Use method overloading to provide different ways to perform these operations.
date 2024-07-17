@@ -1,0 +1,42 @@
+public class ComplexNumber {
+    private double real;
+    private double imag;
+
+    public ComplexNumber(double real, double imag) {
+        this.real = real;
+        this.imag = imag;
+    }
+
+    public ComplexNumber add(ComplexNumber other) {
+        return new ComplexNumber(this.real + other.real, this.imag + other.imag);
+    }
+
+    public ComplexNumber add(double value) {
+        return new ComplexNumber(this.real + value, this.imag);
+    }
+
+    public ComplexNumber multiply(ComplexNumber other) {
+        double realPart = this.real * other.real - this.imag * other.imag;
+        double imagPart = this.real * other.imag + this.imag * other.real;
+        return new ComplexNumber(realPart, imagPart);
+    }
+
+    public ComplexNumber multiply(double value) {
+        return new ComplexNumber(this.real * value, this.imag * value);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + real + " + " + imag + "i)";
+    }
+
+    public static void main(String[] args) {
+        ComplexNumber c1 = new ComplexNumber(2, 3);
+        ComplexNumber c2 = new ComplexNumber(1, 4);
+
+        System.out.println("c1 + c2 = " + c1.add(c2));
+        System.out.println("c1 * c2 = " + c1.multiply(c2));
+        System.out.println("c1 + 5 = " + c1.add(5));
+        System.out.println("c2 * 3 = " + c2.multiply(3));
+    }
+}
