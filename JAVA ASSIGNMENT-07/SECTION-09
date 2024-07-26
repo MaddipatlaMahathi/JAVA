@@ -1,0 +1,123 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Dorm {
+    private String name;
+    private int population;
+    private double x, y;
+
+    public Dorm(String name, double x, double y, int population) {
+        this.name = name;
+        this.population = population;
+        this.x = x;
+        this.y = y;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public int getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(int population) {
+        this.population = population;
+    }
+
+    public void setLocation(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+class Student {
+    private Dorm dorm;
+
+    public Student(Dorm dorm) {
+        this.dorm = dorm;
+    }
+
+    public double getX() {
+        return dorm.getX();
+    }
+
+    public double getY() {
+        return dorm.getY();
+    }
+}
+
+public class CampusMap {
+    private static ArrayList<Dorm> dorms = new ArrayList<>();
+    private static ArrayList<Student> studyGroup = new ArrayList<>();
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Adding dorms
+        dorms.add(new Dorm("Dorm A", 100, 200, 100));
+        dorms.add(new Dorm("Dorm B", 500, 300, 150));
+        dorms.add(new Dorm("Dorm C", 300, 500, 200));
+
+        // Adding students to the study group
+        studyGroup.add(new Student(dorms.get(0)));
+        studyGroup.add(new Student(dorms.get(1)));
+        studyGroup.add(new Student(dorms.get(2)));
+
+        while (true) {
+            System.out.println("Current Dorm Populations:");
+            for (Dorm dorm : dorms) {
+                System.out.println(dorm.getName() + ": " + dorm.getPopulation());
+            }
+
+            System.out.println("Enter dorm name to update population (or 'exit' to finish):");
+            String dormName = scanner.nextLine();
+            if (dormName.equals("exit")) break;
+
+            System.out.println("Enter new population:");
+            int newPopulation = Integer.parseInt(scanner.nextLine());
+
+            for (Dorm dorm : dorms) {
+                if (dorm.getName().equals(dormName)) {
+                    dorm.setPopulation(newPopulation);
+                }
+            }
+
+            updateCenters();
+        }
+
+        scanner.close();
+    }
+
+    private static void updateCenters() {
+        double allX = 0, allY = 0, totalPopulation = 0;
+        for (Dorm dorm : dorms) {
+            allX += dorm.getX() * dorm.getPopulation();
+            allY += dorm.getY() * dorm.getPopulation();
+            totalPopulation += dorm.getPopulation();
+        }
+        double centerX = allX / totalPopulation;
+        double centerY = allY / totalPopulation;
+
+        System.out.println(String.format("Center of All Students: (%.2f, %.2f)", centerX, centerY));
+
+        // Update the study group center
+        double studyX = 0, studyY = 0;
+        for (Student student : studyGroup) {
+            studyX += student.getX();
+            studyY += student.getY();
+        }
+        double studyCenterX = studyX / studyGroup.size();
+        double studyCenterY = studyY / studyGroup.size();
+
+        System.out.println(String.format("Center of Study Group: (%.2f, %.2f)", studyCenterX, studyCenterY));
+    }
+}
