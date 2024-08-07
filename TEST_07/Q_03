@@ -1,0 +1,59 @@
+class Product {
+    protected String productId;
+    protected String name;
+    protected double price;
+
+    public Product(String productId, String name, double price) {
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+}
+class Electronics extends Product {
+
+    public Electronics(String productId, String name, double price) {
+        super(productId, name, price);
+    }
+    public double calculateDiscount(boolean isMember) {
+        if (isMember) {
+            return price * 0.90; 
+        } else {
+            return price;
+        }
+    }
+}
+class Clothing extends Product {
+
+    public Clothing(String productId, String name, double price) {
+        super(productId, name, price);
+    }
+    public double calculateSeasonalDiscount(boolean isSeasonalSale) {
+        if (isSeasonalSale) {
+            return price * 0.80;
+        } else {
+            return price;
+        }
+    }
+}
+public class ProductTest {
+    public static void main(String[] args) {
+        Electronics laptop = new Electronics("HP", "Laptop", 56000.00);
+        Clothing tshirt = new Clothing("trends", "T-Shirt", 679.00);
+        System.out.println("Laptop price for members: $" + laptop.calculateDiscount(true));
+        System.out.println("Laptop price for non-members: $" + laptop.calculateDiscount(false));
+        System.out.println("T-Shirt price during sale: $" + tshirt.calculateSeasonalDiscount(true));
+        System.out.println("T-Shirt price without sale: $" + tshirt.calculateSeasonalDiscount(false));
+    }
+}
