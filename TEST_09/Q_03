@@ -1,0 +1,19 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+public class TimeValidator {
+
+    public static boolean isValidTime(String time) {
+        String regex = "^(?:[01]\\d|2[0-3]):[0-5]\\d$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(time);
+        return matcher.matches();
+    }
+
+    public static void main(String[] args) {
+        assert isValidTime("23:59"); 
+        assert isValidTime("00:00"); 
+        assert !isValidTime("24:00"); 
+        assert !isValidTime("12:60"); 
+        System.out.println("All test cases passed.");
+    }
+}
