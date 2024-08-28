@@ -1,0 +1,32 @@
+import java.util.ArrayList;
+import java.util.List;
+public class Permutations {
+    public static void main(String[] args) {
+        String str1 = "abc";
+        String str2 = "aab";
+
+        System.out.println("Permutations of \"" + str1 + "\": " + permute(str1));
+        System.out.println("Permutations of \"" + str2 + "\": " + permute(str2));
+    }
+    public static List<String> permute(String str) {
+        List<String> result = new ArrayList<>();
+        permuteHelper(str.toCharArray(), 0, result);
+        return result;
+    }
+    private static void permuteHelper(char[] chars, int index, List<String> result) {
+        if (index == chars.length - 1) {
+            result.add(new String(chars));
+        } else {
+            for (int i = index; i < chars.length; i++) {
+                swap(chars, index, i);
+                permuteHelper(chars, index + 1, result);
+                swap(chars, index, i);
+            }
+        }
+    }
+    private static void swap(char[] chars, int i, int j) {
+        char temp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = temp;
+    }
+}
